@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "N9Fw5PdhQ4wTksAQ1Qs/lq4JHhj4vII+cQzyUUiHbQ3skaBVel/xxY2qUTjakTuBViaYDzQ8yNUu3xfw+9whNA==",
+  "dgSpecHash": "AiwByDZaEqrxosWnNHPLwyFemTrxuVKHnpPwZ2LJ8OJf9sKQ634NgDlvPSD6lV+ISmX/DGhXhSQeQB+vhjAcKw==",
   "success": true,
-  "projectFilePath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
+  "projectFilePath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zaika\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\zaika\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mxzKy2sZEe1ViodhGTpqYsgHHuGYsrBpGpxx4t/4ZpY3aI0g/cx6FbHAda/avsQOKTrIH/1cFxged43Q9fZIRg==",
+  "dgSpecHash": "chjcYlb5YfXR2QVnNR7Nku7Z277IOiy05KY+BAwGHrzl89IqWjt+CQMJv7oMqurn0JsHfWUiBJ5rpaXnvC1dNA==",
   "success": true,
-  "projectFilePath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
+  "projectFilePath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zaika\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\zaika\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

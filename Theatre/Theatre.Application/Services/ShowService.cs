@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Contracts;
+using Theatre.Application.Requests.Roles;
 using Theatre.Application.Requests.Shows;
 using Theatre.Application.Responses.Actors;
 using Theatre.Application.Responses.Roles;
@@ -44,6 +45,12 @@ public class ShowService : IShowService
 
     public async Task<Result<IEnumerable<ShowTableView>>> GetByActor(Guid actorId)
     {
+        var isExist = _context.Actors.Any(x => x.Id == actorId);
+        if (!isExist)
+        {
+            return Result.Failure<IEnumerable<ShowTableView>>(DefinedErrors.Actors.ActorNotFound);
+        }
+        
         var shows = await GetAllFlat(
             show => show.Contracts.Any(contract => contract.ActorId == actorId));
 
@@ -117,6 +124,45 @@ public class ShowService : IShowService
 
         _context.Shows.Remove(show);
         
+        await _context.SaveChangesAsync();
+        
+        return Result.Success();
+    }
+
+    public async Task<Result<RoleDescription>> CreateRole(CreateRoleRequest request)
+    {
+        var show = await Shows.FirstOrDefaultAsync(x => x.Id == request.ShowId);
+
+        if (show is null)
+        {
+            return Result.Failure<RoleDescription>(DefinedErrors.Shows.ShowNotFound);
+        }
+
+        var result = show.AddRole(request.Title);
+
+        if (result.IsSuccess)
+        {
+            await _context.SaveChangesAsync();
+            return Result.Success(new RoleDescription(
+                result.Value.Id,
+                result.Value.Title,
+                null,
+                null));
+        }
+
+        return Result.Failure<RoleDescription>(result.Error);
+    }
+
+    public async Task<Result> DeleteRole(Guid roleId)
+    {
+        var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == roleId);
+
+        if (role is null)
+        {
+            return Result.Success();
+        }
+
+        _context.Remove(role);
         await _context.SaveChangesAsync();
         
         return Result.Success();

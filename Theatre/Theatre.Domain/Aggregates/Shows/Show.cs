@@ -37,9 +37,17 @@ public class Show : Entity
             dateOfPremiere);
     }
 
-    public void AddRole(string roleTitle)
+    public Result<Role> AddRole(string roleTitle)
     {
-        _roles.Add(new Role(new Guid(), Id, roleTitle));
+        if (Roles.Any(x => x.Title == roleTitle))
+        {
+            return Result.Failure<Role>(DefinedErrors.Roles.RoleAlreadyCreatedForShow);
+        }
+        
+        var role = new Role(new Guid(), Id, roleTitle);
+        _roles.Add(role);
+
+        return role;
     }
     
     public Result<Contract> CreateContract(Guid roleId, Guid actorId, double yearCost)
@@ -58,7 +66,7 @@ public class Show : Entity
 
         if (Roles.All(x => x.Id != roleId))
         {
-            return Result.Failure<Contract>(Errors.DefinedErrors.Contracts.RoleNotFound);
+            return Result.Failure<Contract>(Errors.DefinedErrors.Roles.RoleNotFound);
         }
         
         if (Contracts.Any(x => x.RoleId == roleId))

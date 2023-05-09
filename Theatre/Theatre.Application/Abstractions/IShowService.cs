@@ -1,4 +1,6 @@
-﻿using Theatre.Application.Requests.Shows;
+﻿using Theatre.Application.Requests.Roles;
+using Theatre.Application.Requests.Shows;
+using Theatre.Application.Responses.Roles;
 using Theatre.Application.Responses.Shows;
 using Theatre.Domain.Aggregates.Shows;
 using Theatre.Errors;
@@ -12,4 +14,6 @@ public interface IShowService
     Task<Result<ShowFullInfo>> GetById(Guid id);
     Task<Result<ShowTableView>> CreateShow(CreateShowRequest request);
     Task<Result> DeleteShow(Guid showId);
+    Task<Result<RoleDescription>> CreateRole(CreateRoleRequest request);
+    Task<Result> DeleteRole(Guid roleId);
 }

@@ -19,7 +19,6 @@ public static class DefinedErrors
     {
         public static readonly Error ContractNotFound = new("Contract not found");
         public static readonly Error BudgetOverdue = new("It`s not enough money to create contract");
-        public static readonly Error RoleNotFound = new("Role not found");
         public static readonly Error ContractAlreadyCreatedForRole =
             new("For provided role contract have already been created");
         public static readonly Error Overdraft = new("All money have been payed on this contract");
@@ -33,5 +32,12 @@ public static class DefinedErrors
     public static class Shows
     {
         public static readonly Error ShowNotFound = new("Show not found");
+    }
+    
+    public static class Roles
+    {
+        public static readonly Error RoleNotFound = new("Role not found");
+        public static readonly Error RoleAlreadyCreatedForShow =
+            new("For provided show role with this title have already been created");
     }
 }

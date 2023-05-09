@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
+      "projectUniqueName": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
       "projectName": "Theatre.Errors",
-      "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
+      "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
       "packagesPath": "C:\\Users\\zaika\\.nuget\\packages\\",
-      "outputPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\obj\\",
+      "outputPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\zaika\\AppData\\Roaming\\NuGet\\NuGet.Config"

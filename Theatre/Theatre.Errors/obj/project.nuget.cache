@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MsRoixESQEtOiqQKz/l/OuHndqG5EyokpK/2wTulpdlN4bcrw2aPice3VU7Eg7UvyPnR1FTh+8yGaXlnTf0pXw==",
+  "dgSpecHash": "5pPTsqtNgbQr6V9GFQI5+QYIAp2rGScHO/n4PyEVeQX4GAanEzjp9IcbUanTFKqVDCRw2rHgNL2W/LbZDh8qrA==",
   "success": true,
-  "projectFilePath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
+  "projectFilePath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

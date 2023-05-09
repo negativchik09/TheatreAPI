@@ -1,5 +1,3 @@
 ﻿namespace Theatre.Application.Requests.Roles;
 
-public record CreateRoleRequest
-{
-}
+public record CreateRoleRequest(Guid ShowId, string Title);

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\Theatre.Application.csproj": {}
+    "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\Theatre.Application.csproj": {}
   },
   "projects": {
-    "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\Theatre.Application.csproj": {
+    "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\Theatre.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
+        "projectUniqueName": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
         "projectName": "Theatre.Application",
-        "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
+        "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\Theatre.Application.csproj",
         "packagesPath": "C:\\Users\\zaika\\.nuget\\packages\\",
-        "outputPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Application\\obj\\",
+        "outputPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zaika\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj": {
-                "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj"
+              "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj": {
+                "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj"
               }
             }
           }
@@ -75,14 +75,14 @@
         }
       }
     },
-    "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj": {
+    "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
+        "projectUniqueName": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
         "projectName": "Theatre.Domain",
-        "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
+        "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\Theatre.Domain.csproj",
         "packagesPath": "C:\\Users\\zaika\\.nuget\\packages\\",
-        "outputPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Domain\\obj\\",
+        "outputPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zaika\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -97,8 +97,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj": {
-                "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj"
+              "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj": {
+                "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj"
               }
             }
           }
@@ -158,14 +158,14 @@
         }
       }
     },
-    "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj": {
+    "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
+        "projectUniqueName": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
         "projectName": "Theatre.Errors",
-        "projectPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
+        "projectPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\Theatre.Errors.csproj",
         "packagesPath": "C:\\Users\\zaika\\.nuget\\packages\\",
-        "outputPath": "X:\\repos\\RiderProjects\\LINQStuding\\Theatre\\Theatre.Errors\\obj\\",
+        "outputPath": "X:\\repos\\RiderProjects\\TheatreAPI\\Theatre\\Theatre.Errors\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zaika\\AppData\\Roaming\\NuGet\\NuGet.Config"

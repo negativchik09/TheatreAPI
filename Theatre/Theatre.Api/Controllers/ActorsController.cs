@@ -20,10 +20,10 @@ public class ActorsController : Controller
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(ActorFlat), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ActorFlat>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAll()
     {
         var result = await _actorsService.GetAll();
@@ -40,7 +40,7 @@ public class ActorsController : Controller
     [ProducesResponseType(typeof(ActorFlat), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetActor([FromRoute] Guid actorId)
     {
         var result = await _actorsService.GetById(actorId);
@@ -62,7 +62,7 @@ public class ActorsController : Controller
     [ProducesResponseType(typeof(CreateActorResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateActor([FromBody] CreateActorRequest request)
     {
         var result = await _actorsService.CreateActor(request);
@@ -85,7 +85,7 @@ public class ActorsController : Controller
     [ProducesResponseType(typeof(ActorFlat), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdatePersonalInfo([FromBody] UpdatePersonalInfoRequest request)
     {
         var result = await _actorsService.UpdateActor(request);
@@ -107,7 +107,7 @@ public class ActorsController : Controller
     [HttpDelete("{actorId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteActor([FromRoute] Guid actorId)
     {
         var result = await _actorsService.DeleteActor(actorId);

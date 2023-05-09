@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Theatre.Errors
-build_property.ProjectDir = X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Errors\
+build_property.ProjectDir = X:\repos\RiderProjects\TheatreAPI\Theatre\Theatre.Errors\

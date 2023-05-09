@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Contracts;
@@ -14,7 +15,7 @@ namespace Theatre.Application.Services;
 public class ContractService : IContractService
 {
     private readonly ApplicationDbContext _context;
-    private IMapper _mapper;
+    private readonly IMapper _mapper;
 
     public ContractService(ApplicationDbContext context, IMapper mapper)
     {
@@ -141,13 +142,32 @@ public class ContractService : IContractService
         return Result.Failure<TransactionFlat>(contractResult.Error);
     }
 
-    public Task<Result<IEnumerable<TransactionFlat>>> GetTransactionsByActor(Guid actorId)
+    public async Task<Result<IEnumerable<TransactionFlat>>> GetTransactionsByActor(Guid actorId)
     {
-        throw new NotImplementedException();
+        if (!(await _context.Actors.AnyAsync(x => x.Id == actorId)))
+        {
+            return Result.Failure<IEnumerable<TransactionFlat>>(DefinedErrors.Actors.ActorNotFound);
+        }
+        
+        var transactions = _context.Transactions
+            .AsNoTracking()
+            .Where(x => x.ActorId == actorId)
+            .ToList();
+
+        return Result.Success(_mapper.Map<IEnumerable<TransactionFlat>>(transactions));
     }
 
-    public Task<Result<IEnumerable<TransactionFlat>>> GetTransactionsByContract(Guid contractId)
+    public async Task<Result<IEnumerable<TransactionFlat>>> GetTransactionsByContract(Guid contractId)
     {
-        throw new NotImplementedException();
+        var contract = await _context.Contracts
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == contractId);
+
+        if (contract is null)
+        {
+            return Result.Failure<IEnumerable<TransactionFlat>>(DefinedErrors.Contracts.ContractNotFound);
+        }
+        
+        return Result.Success(_mapper.Map<IEnumerable<TransactionFlat>>(contract.Transactions));
     }
 }
