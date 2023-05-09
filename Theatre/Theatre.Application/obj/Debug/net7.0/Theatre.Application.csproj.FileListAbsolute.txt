@@ -1,0 +1,15 @@
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\bin\Debug\net7.0\Theatre.Application.deps.json
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\bin\Debug\net7.0\Theatre.Application.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\bin\Debug\net7.0\Theatre.Application.pdb
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\bin\Debug\net7.0\Theatre.Domain.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\bin\Debug\net7.0\Theatre.Domain.pdb
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.csproj.AssemblyReference.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.GeneratedMSBuildEditorConfig.editorconfig
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.AssemblyInfoInputs.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.AssemblyInfo.cs
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.csproj.CoreCompileInputs.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.csproj.CopyComplete
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\refint\Theatre.Application.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\Theatre.Application.pdb
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Application\obj\Debug\net7.0\ref\Theatre.Application.dll

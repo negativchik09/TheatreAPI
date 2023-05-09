@@ -1,0 +1,14 @@
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\bin\Debug\net7.0\Theatre.Domain.deps.json
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\bin\Debug\net7.0\Theatre.Domain.runtimeconfig.json
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\bin\Debug\net7.0\Theatre.Domain.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\bin\Debug\net7.0\Theatre.Domain.pdb
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.csproj.AssemblyReference.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.GeneratedMSBuildEditorConfig.editorconfig
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.AssemblyInfoInputs.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.AssemblyInfo.cs
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.csproj.CoreCompileInputs.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\refint\Theatre.Domain.dll
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.pdb
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\Theatre.Domain.genruntimeconfig.cache
+X:\repos\RiderProjects\LINQStuding\Theatre\Theatre.Domain\obj\Debug\net7.0\ref\Theatre.Domain.dll
