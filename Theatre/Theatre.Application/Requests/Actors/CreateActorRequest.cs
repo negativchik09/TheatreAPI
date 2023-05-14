@@ -1,13 +1,21 @@
-﻿namespace Theatre.Application.Requests.Actors;
+﻿using Theatre.Domain.Aggregates.Actors;
 
-public record CreateActorRequest(
-    string FirstName, 
-    string LastName, 
-    string MiddleName, 
-    DateTime DateOfBirth, 
-    string Dignity,
-    double Experience,
-    string Email, 
-    string Telephone, 
-    string Address,
-    string Login);
+namespace Theatre.Application.Requests.Actors;
+
+public record CreateActorRequest
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string MiddleName { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string Dignity { get; set; }
+    public double Experience { get; set; }
+    public string Email { get; set; }
+    public string Telephone { get; set; }
+    public string Address { get; set; }
+    public string Login { get; set; }
+    public string PassportNumber { get; set; }
+    public string PassportGivenBy { get; set; }
+    public string? PassportSeries { get; set; }
+    public string TaxesNumber { get; set; }
+}

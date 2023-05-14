@@ -244,6 +244,10 @@ namespace Theatre.Domain.Migrations
                     b.Property<double>("Experience")
                         .HasColumnType("float");
 
+                    b.Property<string>("TaxesNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -265,7 +269,7 @@ namespace Theatre.Domain.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ShowId")
+                    b.Property<Guid?>("ShowId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("YearCost")
@@ -430,29 +434,61 @@ namespace Theatre.Domain.Migrations
                                 .HasForeignKey("ActorId");
                         });
 
+                    b.OwnsOne("Theatre.Domain.Aggregates.Actors.Passport", "Passport", b1 =>
+                        {
+                            b1.Property<Guid>("ActorId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("GivenBy")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Series")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ActorId");
+
+                            b1.ToTable("Actors");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ActorId");
+                        });
+
                     b.Navigation("Name")
+                        .IsRequired();
+
+                    b.Navigation("Passport")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Theatre.Domain.Aggregates.Shows.Contract", b =>
                 {
-                    b.HasOne("Theatre.Domain.Aggregates.Actors.Actor", null)
+                    b.HasOne("Theatre.Domain.Aggregates.Actors.Actor", "Actor")
                         .WithMany()
                         .HasForeignKey("ActorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Theatre.Domain.Aggregates.Shows.Role", null)
+                    b.HasOne("Theatre.Domain.Aggregates.Shows.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Theatre.Domain.Aggregates.Shows.Show", null)
+                    b.HasOne("Theatre.Domain.Aggregates.Shows.Show", "Show")
                         .WithMany("Contracts")
                         .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("Show");
                 });
 
             modelBuilder.Entity("Theatre.Domain.Aggregates.Shows.Role", b =>
@@ -460,7 +496,7 @@ namespace Theatre.Domain.Migrations
                     b.HasOne("Theatre.Domain.Aggregates.Shows.Show", null)
                         .WithMany("Roles")
                         .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -469,13 +505,13 @@ namespace Theatre.Domain.Migrations
                     b.HasOne("Theatre.Domain.Aggregates.Actors.Actor", null)
                         .WithMany()
                         .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Theatre.Domain.Aggregates.Shows.Contract", null)
                         .WithMany("Transactions")
                         .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

@@ -32,7 +32,7 @@ public class AccountController : Controller
         
         if (result.IsSuccess)
         {
-            return Ok();
+            return Ok(result.Value);
         }
 
         if (result.Error == DefinedErrors.Accounts.UserNotFound)
@@ -45,7 +45,7 @@ public class AccountController : Controller
             return BadRequest(result.Error.Message);
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
     
     [HttpPut]
@@ -57,13 +57,9 @@ public class AccountController : Controller
     public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
     {
         Claim? claim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-        if (claim == null)
-        {
-            return Forbid("Not valid token");
-        }
-        var userId = claim.Value;
+        var userId = claim?.Value;
 
-        var result = await _accountService.UpdatePassword(request, userId);
+        var result = await _accountService.UpdatePassword(request, userId!);
         
         if (result.IsSuccess)
         {

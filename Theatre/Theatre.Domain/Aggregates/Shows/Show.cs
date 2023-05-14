@@ -61,17 +61,17 @@ public class Show : Entity
         var alreadySpent = Contracts.Sum(x => x.YearCost.Amount);
         if (yearCost + alreadySpent > TotalBudget.Amount)
         {
-            return Result.Failure<Contract>(Errors.DefinedErrors.Contracts.BudgetOverdue);
+            return Result.Failure<Contract>(DefinedErrors.Contracts.BudgetOverdue);
         }
 
         if (Roles.All(x => x.Id != roleId))
         {
-            return Result.Failure<Contract>(Errors.DefinedErrors.Roles.RoleNotFound);
+            return Result.Failure<Contract>(DefinedErrors.Roles.RoleNotFound);
         }
         
         if (Contracts.Any(x => x.RoleId == roleId))
         {
-            return Result.Failure<Contract>(Errors.DefinedErrors.Contracts.ContractAlreadyCreatedForRole);
+            return Result.Failure<Contract>(DefinedErrors.Contracts.ContractAlreadyCreatedForRole);
         }
         
         var contract = new Contract(

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Theatre.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AdditionalPropertiesOnActor : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,14 @@ namespace Theatre.Domain.Migrations
                     Name_MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Dignity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Experience = table.Column<double>(type: "float", nullable: false)
+                    Experience = table.Column<double>(type: "float", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passport_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passport_GivenBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passport_Series = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TaxesNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,7 +209,8 @@ namespace Theatre.Domain.Migrations
                         name: "FK_Roles_Shows_ShowId",
                         column: x => x.ShowId,
                         principalTable: "Shows",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +219,7 @@ namespace Theatre.Domain.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ActorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ShowId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     YearCost = table.Column<double>(type: "float", nullable: false)
                 },
@@ -234,8 +242,7 @@ namespace Theatre.Domain.Migrations
                         name: "FK_Contracts_Shows_ShowId",
                         column: x => x.ShowId,
                         principalTable: "Shows",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -255,13 +262,13 @@ namespace Theatre.Domain.Migrations
                         name: "FK_Transactions_Actors_ActorId",
                         column: x => x.ActorId,
                         principalTable: "Actors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Transactions_Contracts_ContractId",
                         column: x => x.ContractId,
                         principalTable: "Contracts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

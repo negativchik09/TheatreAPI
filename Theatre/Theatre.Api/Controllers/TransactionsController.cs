@@ -1,10 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Theatre.Application.Requests.Contracts;
+using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Transactions;
-using Theatre.Application.Services;
 using Theatre.Errors;
 
 namespace Theatre.Controllers;
@@ -14,48 +12,53 @@ namespace Theatre.Controllers;
 [Route("api/[controller]")]
 public class TransactionsController : Controller
 {
-    private readonly ContractService _contractService;
+    private readonly IContractService _contractService;
 
-    public TransactionsController(ContractService contractService)
+    public TransactionsController(IContractService contractService)
     {
         _contractService = contractService;
     }
 
     [HttpGet("")]
-    [Authorize(Roles = IdentityRoles.Admin)]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllForAdmin()
-    {
-        var result = await _contractService.GetAllTransactions();
-
-        if (result.IsSuccess)
-        {
-            return Ok(result.Value);
-        }
-
-        return StatusCode(500, result.Error.Message);
-    }
-    
-    [HttpGet("")]
-    [Authorize(Roles = IdentityRoles.Actor)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllForActor()
+    public async Task<IActionResult> GetAll()
     {
         Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+        Claim? roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
         if (idClaim is null) return StatusCode(500);
+        if (roleClaim is null) return StatusCode(500);
 
-        var result = await _contractService.GetTransactionsByActor(Guid.Parse(idClaim.Value));
-
-        if (result.IsSuccess)
+        switch (roleClaim.Value)
         {
-            return Ok(result.Value);
-        }
+            case IdentityRoles.Actor:
+            {
+                var result = await _contractService.GetTransactionsByActor(Guid.Parse(idClaim.Value));
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value);
+                }
         
-        return StatusCode(500, result.Error.Message);
+                return StatusCode(500, result.Error.Message);
+            }
+            case IdentityRoles.Admin:
+            {
+                var result = await _contractService.GetAllTransactions();
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value);
+                }
+
+                return StatusCode(500, result.Error.Message);
+            }
+            default:
+                return StatusCode(500);
+        }
     }
 
     [Authorize(Roles = IdentityRoles.Admin)]
@@ -90,61 +93,64 @@ public class TransactionsController : Controller
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetByContract([FromRoute] Guid contractId)
     {
-        var result = await _contractService.GetTransactionsByContract(contractId);
-
-        if (result.IsSuccess)
-        {
-            return Ok(result.Value);
-        }
-        
-        if (result.Error == DefinedErrors.Contracts.ContractNotFound)
-        {
-            return NotFound(result.Error.Message);
-        }
-
-        if (result.Error == DefinedErrors.Contracts.Overdraft)
-        {
-            return BadRequest(result.Error.Message);
-        }
-        
-        return StatusCode(500, result.Error.Message);
-    }
-    
-    [Authorize(Roles = IdentityRoles.Actor)]
-    [HttpGet("{contractId:guid}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByContractForActor([FromRoute] Guid contractId)
-    {
         Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-        if (idClaim is null) return StatusCode(500);
-        var result = await _contractService.GetTransactionsByContract(contractId);
-        
-        if (result.IsSuccess)
-        {
-            if (result.Value.Any(x => x.ActorId.ToString() != idClaim.Value))
-            {
-                return Forbid("Actor can`t get not his transactions");
-            }
-            
-            return Ok(result);
-        }
-        
-        if (result.Error == DefinedErrors.Contracts.ContractNotFound)
-        {
-            return NotFound(result.Error.Message);
-        }
+        Claim? roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
 
-        if (result.Error == DefinedErrors.Contracts.Overdraft)
+        if (idClaim is null) return StatusCode(500);
+        if (roleClaim is null) return StatusCode(500);
+
+        switch (roleClaim.Value)
         {
-            return BadRequest(result.Error.Message);
-        }
+            case IdentityRoles.Actor:
+            {
+                var result = await _contractService.GetTransactionsByContract(contractId);
         
-        return StatusCode(500, result.Error.Message);
+                if (result.IsSuccess)
+                {
+                    if (result.Value.Any(x => x.ActorId.ToString() != idClaim.Value))
+                    {
+                        return Forbid("Actor can`t get not his transactions");
+                    }
+            
+                    return Ok(result);
+                }
+        
+                if (result.Error == DefinedErrors.Contracts.ContractNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
+
+                if (result.Error == DefinedErrors.Contracts.Overdraft)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+        
+                return StatusCode(500, result.Error.Message);
+            }
+            case IdentityRoles.Admin:
+            {
+                var result = await _contractService.GetTransactionsByContract(contractId);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value);
+                }
+        
+                if (result.Error == DefinedErrors.Contracts.ContractNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
+
+                if (result.Error == DefinedErrors.Contracts.Overdraft)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+        
+                return StatusCode(500, result.Error.Message);
+            }
+            default:
+                return StatusCode(500);
+        }
     }
     
     [Authorize(Roles = IdentityRoles.Admin)]

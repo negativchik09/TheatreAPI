@@ -50,16 +50,20 @@ public class ActorsService : IActorsService
         var user = userResult.Value.User;
 
         var actorResult = Actor.Create(
-            Guid.Parse(user.Id),
-            request.FirstName,
-            request.LastName,
-            request.MiddleName,
-            request.DateOfBirth,
-            request.Dignity,
-            request.Experience,
-            request.Email,
-            request.Telephone,
-            request.Address);
+            id: Guid.Parse(user.Id),
+            firstName: request.FirstName,
+            lastName: request.LastName,
+            middleName: request.MiddleName,
+            dateOfBirth: request.DateOfBirth,
+            dignity: request.Dignity,
+            experience: request.Experience,
+            email: request.Email,
+            telephone: request.Telephone,
+            address: request.Address,
+            number: request.PassportNumber,
+            givenBy: request.PassportGivenBy,
+            series: request.PassportSeries,
+            taxesNumber: request.TaxesNumber);
 
         if (!actorResult.IsSuccess)
         {
@@ -80,16 +84,20 @@ public class ActorsService : IActorsService
     public async Task<Result<ActorFlat>> UpdateActor(UpdatePersonalInfoRequest request)
     {
         var actorResult = Actor.Create(
-            request.Id,
-            request.FirstName,
-            request.LastName,
-            request.MiddleName,
-            request.DateOfBirth,
-            request.Dignity,
-            request.Experience,
-            request.Email,
-            request.Telephone,
-            request.Address);
+            id: request.Id.Value,
+            firstName: request.FirstName,
+            lastName: request.LastName,
+            middleName: request.MiddleName,
+            dateOfBirth: request.DateOfBirth,
+            dignity: request.Dignity,
+            experience: request.Experience,
+            email: request.Email,
+            telephone: request.Telephone,
+            address: request.Address,
+            number: request.PassportNumber,
+            givenBy: request.PassportGivenBy,
+            series: request.PassportSeries,
+            taxesNumber: request.TaxesNumber);
         
         if (!actorResult.IsSuccess)
         {

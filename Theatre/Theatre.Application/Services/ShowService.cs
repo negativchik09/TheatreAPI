@@ -54,24 +54,26 @@ public class ShowService : IShowService
         var shows = await GetAllFlat(
             show => show.Contracts.Any(contract => contract.ActorId == actorId));
 
-        return Result.Success(_mapper.Map<IEnumerable<ShowTableView>>(shows));
+        return Result.Success(_mapper.Map<IEnumerable<ShowTableView>>(shows.Value));
     }
 
     private IEnumerable<RoleDescription> CreateRoleDescriptions(Show show)
     {
         return show.Roles
             .GroupJoin(
-                show.Contracts, 
-                role => role.Id, 
-                contract => contract.RoleId, 
+                show.Contracts,
+                role => role.Id,
+                contract => contract.RoleId,
                 (role, pair) => new { role, pair })
             .SelectMany(@t => @t.pair.DefaultIfEmpty(),
-                (@t, subcontract) => 
-                    new RoleDescription(
-                        Id: @t.role.Id, 
-                        Title: @t.role.Title,
-                        Actor: _mapper.Map<ActorFlat>(subcontract?.Actor) ?? default, 
-                        Contract: _mapper.Map<ContractFlat>(subcontract)));
+                (@t, subcontract) =>
+                    new RoleDescription
+                    {
+                        Id = @t.role.Id,
+                        Title = @t.role.Title, 
+                        Actor = _mapper.Map<ActorFlat>(subcontract?.Actor),
+                        Contract = _mapper.Map<ContractFlat>(subcontract)
+                    });
     }
 
     public async Task<Result<ShowFullInfo>> GetById(Guid id)
@@ -84,12 +86,13 @@ public class ShowService : IShowService
 
         var roles = CreateRoleDescriptions(show);
         
-        return new ShowFullInfo(show.Id,
-            show.Title,
-            show.TotalBudget.Amount,
-            show.Contracts.Sum(x => x.YearCost.Amount),
-            show.DateOfPremiere,
-            roles);
+        return new ShowFullInfo{
+            Id = show.Id,
+            Title = show.Title,
+            TotalBudget = show.TotalBudget.Amount,
+            AlreadySpent = show.Contracts.Sum(x => x.YearCost.Amount),
+            DateOfPremiere = show.DateOfPremiere,
+            RoleActorPairs = roles};
     }
 
     public async Task<Result<ShowTableView>> CreateShow(CreateShowRequest request)
@@ -143,11 +146,11 @@ public class ShowService : IShowService
         if (result.IsSuccess)
         {
             await _context.SaveChangesAsync();
-            return Result.Success(new RoleDescription(
-                result.Value.Id,
-                result.Value.Title,
-                null,
-                null));
+            return Result.Success(new RoleDescription{
+                Id = result.Value.Id,
+                Title = result.Value.Title,
+                Contract = null,
+                Actor = null});
         }
 
         return Result.Failure<RoleDescription>(result.Error);

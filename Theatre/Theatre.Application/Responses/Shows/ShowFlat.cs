@@ -1,6 +1,9 @@
 ﻿namespace Theatre.Application.Responses.Shows;
 
-public record ShowFlat(Guid Id, 
-    string Title, 
-    double TotalBudget,
-    DateTime DateOfPremiere);
+public record ShowFlat
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public double TotalBudget { get; set; }
+    public DateTime DateOfPremiere { get; set; }
+}

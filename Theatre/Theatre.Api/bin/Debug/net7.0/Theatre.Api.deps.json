@@ -920,10 +920,16 @@
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.4",
           "Microsoft.EntityFrameworkCore": "7.0.4",
-          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.4"
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.4",
+          "Theatre.Errors": "1.0.0"
         },
         "runtime": {
           "Theatre.Domain.dll": {}
+        }
+      },
+      "Theatre.Errors/1.0.0": {
+        "runtime": {
+          "Theatre.Errors.dll": {}
         }
       }
     }
@@ -1654,6 +1660,11 @@
       "sha512": ""
     },
     "Theatre.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Theatre.Errors/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -30,7 +30,7 @@ public class AccountService : IAccountService
         var user = await _userManager.FindByNameAsync(request.Login);
         
         if (user == null) return Result.Failure<LoginResponse>(DefinedErrors.Accounts.UserNotFound);
-
+        
         var result = await _signInManager.PasswordSignInAsync(
             user: user, 
             password: request.Password, 
@@ -55,7 +55,11 @@ public class AccountService : IAccountService
 
         var token = GetToken(authClaims);
         
-        return new LoginResponse(new JwtSecurityTokenHandler().WriteToken(token), userRoles.Single());
+        return new LoginResponse
+        {
+            Token = new JwtSecurityTokenHandler().WriteToken(token), 
+            Role = userRoles.Single()
+        };
     }
 
     public async Task<Result<(IdentityUser User, string Password)>> CreateActor(string login, string email, string phone)
@@ -67,7 +71,7 @@ public class AccountService : IAccountService
         };
         var password = GeneratePassword();
         var identityResult = await _userManager.CreateAsync(
-            user, GeneratePassword());
+            user, password);
 
         if (!identityResult.Succeeded)
         {

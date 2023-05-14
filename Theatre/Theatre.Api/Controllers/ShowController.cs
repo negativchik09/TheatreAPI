@@ -21,8 +21,8 @@ public class ShowController : Controller
     {
         _showService = showService;
     }
-
-    [HttpGet]
+    
+    [HttpGet("")]
     [ProducesResponseType(typeof(IEnumerable<ShowTableView>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
@@ -30,45 +30,46 @@ public class ShowController : Controller
     public async Task<IActionResult> GetAllForActor()
     {
         Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-        
+        Claim? roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
         if (idClaim is null) return StatusCode(500);
+        if (roleClaim is null) return StatusCode(500);
 
-        var result = await _showService.GetByActor(Guid.Parse(idClaim.Value));
+        switch (roleClaim.Value)
+        {
+            case IdentityRoles.Actor:
+            {
+                var result = await _showService.GetByActor(Guid.Parse(idClaim.Value));
         
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value);
+                }
 
-        if (result.Error == DefinedErrors.Actors.ActorNotFound)
-        {
-            return NotFound(result.Error.Message);
-        }
+                if (result.Error == DefinedErrors.Actors.ActorNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
+            
+                return StatusCode(500, result.Error.Message);
+            }
+            case IdentityRoles.Admin:
+            {
+                var result = await _showService.GetAllFlat();
 
-        return StatusCode(500, result.Error.Message);
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value);
+                }
+
+                return StatusCode(500, result.Error.Message);
+            }
+            default:
+                return StatusCode(500);
+        }
     }
     
-    [Authorize(Roles = IdentityRoles.Admin)]
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<ShowTableView>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllForAdmin()
-    {
-        Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
-        
-        if (idClaim is null) return StatusCode(500);
 
-        Result<IEnumerable<ShowTableView>> result = await _showService.GetAllFlat();
-
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
-
-        return StatusCode(500, result.Error.Message);
-    }
-    
     [HttpGet("{showId:guid}")]
     [ProducesResponseType(typeof(ShowFullInfo), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
@@ -80,7 +81,7 @@ public class ShowController : Controller
 
         if (result.IsSuccess)
         {
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         if (result.Error != DefinedErrors.Shows.ShowNotFound)
@@ -103,7 +104,7 @@ public class ShowController : Controller
 
         if (result.IsSuccess)
         {
-            return Ok(result);
+            return Ok(result.Value);
         }
 
         return BadRequest(result.Error.Message);
@@ -128,7 +129,7 @@ public class ShowController : Controller
     }
     
     [Authorize(Roles = IdentityRoles.Admin)]
-    [HttpPost("/create-role")]
+    [HttpPost("create-role")]
     [ProducesResponseType(typeof(RoleDescription), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
@@ -153,7 +154,7 @@ public class ShowController : Controller
             return BadRequest(result.Error.Message);
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
 
     [Authorize(Roles = IdentityRoles.Admin)]
@@ -170,6 +171,6 @@ public class ShowController : Controller
             return Ok();
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
 }

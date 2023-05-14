@@ -23,11 +23,6 @@ public class ShowConfiguration : IEntityTypeConfiguration<Show>
         builder.HasMany(show => show.Roles)
             .WithOne()
             .HasForeignKey(role => role.ShowId)
-            .OnDelete(DeleteBehavior.NoAction);
-        
-        builder.HasMany(show => show.Contracts)
-            .WithOne()
-            .HasForeignKey(role => role.ShowId)
-            .OnDelete(DeleteBehavior.NoAction);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -25,41 +25,45 @@ public class ContractController : Controller
     [ProducesResponseType(typeof(IEnumerable<ContractFullInfo>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllForAdmin()
-    {
-        var result = await _contractService.GetAll();
-
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
-
-        return StatusCode(500, result.Error.Message);
-    }
-    
-    [HttpGet("")]
-    [Authorize(Roles = IdentityRoles.Actor)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllForActor()
+    public async Task<IActionResult> GetAll()
     {
         Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+        Claim? roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
         if (idClaim is null) return StatusCode(500);
-        
-        var result = await _contractService.GetByActor(Guid.Parse(idClaim.Value));
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
+        if (roleClaim is null) return StatusCode(500);
 
-        if (result.Error == DefinedErrors.Actors.ActorNotFound)
+        switch (roleClaim.Value)
         {
-            return NotFound(result.Error.Message);
-        }
+            case IdentityRoles.Actor:
+            {
+                var result = await _contractService.GetByActor(Guid.Parse(idClaim.Value));
+                if (result.IsSuccess)
+                {
+                    return Ok(result);
+                }
 
-        return StatusCode(500, result.Error.Message);
+                if (result.Error == DefinedErrors.Actors.ActorNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
+
+                return StatusCode(500, result.Error.Message);
+            }
+            case IdentityRoles.Admin:
+            {
+                var result = await _contractService.GetAll();
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result);
+                }
+
+                return StatusCode(500, result.Error.Message);
+            }
+            default:
+                return StatusCode(500);
+        }
     }
 
     [HttpGet("{contractId:guid}")]
@@ -72,48 +76,53 @@ public class ContractController : Controller
     public async Task<IActionResult> GetContract([FromRoute] Guid contractId)
     {
         Claim? idClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid);
+        Claim? roleClaim = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+
         if (idClaim is null) return StatusCode(500);
-        var result = await _contractService.GetById(contractId);
-        
-        if (result.IsSuccess)
+        if (roleClaim is null) return StatusCode(500);
+
+        switch (roleClaim.Value)
         {
-            if (result.Value.Actor.Id.ToString() != idClaim.Value)
+            case IdentityRoles.Actor:
             {
-                return Forbid("Actor can`t get not his contract");
-            }
-            
-            return Ok(result);
-        }
-
-        if (result.Error == DefinedErrors.Contracts.ContractNotFound)
-        {
-            return NotFound(result.Error.Message);
-        }
-
-        return StatusCode(500, result.Error.Message);
-    }
-    
-    [HttpGet("{contractId:guid}")]
-    [Authorize(Roles = IdentityRoles.Admin)]
-    [ProducesResponseType(typeof(ContractFullInfo), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(typeof(string),StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetContractAdmin([FromRoute] Guid contractId)
-    {
-        var result = await _contractService.GetById(contractId);
+                var result = await _contractService.GetById(contractId);
         
-        if (result.IsSuccess)
-        {
-            return Ok(result);
-        }
+                if (result.IsSuccess)
+                {
+                    if (result.Value.Actor.Id.ToString() != idClaim.Value)
+                    {
+                        return Forbid("Actor can`t get not his contract");
+                    }
+            
+                    return Ok(result);
+                }
 
-        if (result.Error == DefinedErrors.Contracts.ContractNotFound)
-        {
-            return NotFound(result.Error.Message);
-        }
+                if (result.Error == DefinedErrors.Contracts.ContractNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
 
-        return StatusCode(500, result.Error.Message);
+                return StatusCode(500, result.Error.Message);
+            }
+            case IdentityRoles.Admin:
+            {
+                var result = await _contractService.GetById(contractId);
+        
+                if (result.IsSuccess)
+                {
+                    return Ok(result);
+                }
+
+                if (result.Error == DefinedErrors.Contracts.ContractNotFound)
+                {
+                    return NotFound(result.Error.Message);
+                }
+
+                return StatusCode(500, result.Error.Message);
+            }
+            default:
+                return StatusCode(500);
+        }
     }
 
     [HttpPost("")]
@@ -149,7 +158,7 @@ public class ContractController : Controller
     }
 
     [Authorize(Roles = IdentityRoles.Admin)]
-    [HttpDelete("{contractId:guid}")]
+    [HttpDelete("{contractId:guid}", Name = "Delete contract")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]

@@ -11,10 +11,10 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasKey(role => role.Id);
 
         builder.HasOne<Show>()
-            .WithMany()
+            .WithMany(x => x.Roles)
             .HasForeignKey(role => role.ShowId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(role => role.Title).HasMaxLength(255);
     }

@@ -10,8 +10,8 @@ public class Contract : Entity
     private List<Transaction> _transactions = new();
     public Guid ActorId { get; private set; }
     public Actor Actor { get; private set; }
-    public Guid ShowId { get; private set; }
-    public Show Show { get; private set; }
+    public Guid? ShowId { get; private set; }
+    public Show? Show { get; private set; }
     public Guid RoleId { get; private set; }
     public Role Role { get; private set; }
     public Money YearCost { get; private set; }
@@ -36,7 +36,7 @@ public class Contract : Entity
         return transaction;
     }
 
-    internal Contract(Guid id, Guid actorId, Guid showId, Guid roleId, Money yearCost)
+    internal Contract(Guid id, Guid actorId, Guid? showId, Guid roleId, Money yearCost)
     {
         Id = id;
         ActorId = actorId;

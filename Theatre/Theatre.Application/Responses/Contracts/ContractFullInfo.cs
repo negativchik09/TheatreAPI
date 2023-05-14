@@ -5,10 +5,12 @@ using Theatre.Application.Responses.Transactions;
 
 namespace Theatre.Application.Responses.Contracts;
 
-public record ContractFullInfo(
-    ActorFlat Actor,
-    ShowFlat Show,
-    RoleFlat RoleFlat,
-    double YearCost,
-    double AlreadyPayed,
-    List<TransactionFlat> Transactions);
+public record ContractFullInfo
+{
+    public ActorFlat Actor { get; set; }
+    public ShowFlat Show { get; set; }
+    public RoleFlat RoleFlat { get; set; }
+    public double YearCost { get; set; }
+    public double AlreadyPayed { get; set; }
+    public List<TransactionFlat> Transactions { get; set; }
+}

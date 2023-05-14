@@ -1,12 +1,12 @@
 ﻿namespace Theatre.Application.Responses.Actors;
 
 public record ActorFlat
-(
-    Guid Id,
-    string FirstName, 
-    string LastName, 
-    string MiddleName, 
-    DateTime DateOfBirth,
-    string Dignity, 
-    double Experience
-);
+{
+    public Guid Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string MiddleName { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string Dignity { get; set; }
+    public double Experience { get; set; }
+}

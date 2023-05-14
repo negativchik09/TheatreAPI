@@ -1,12 +1,12 @@
 ﻿namespace Theatre.Application.Responses.Shows;
 
 public record ShowTableView
-(
-    Guid Id, 
-    string Title, 
-    double TotalBudget, 
-    double AlreadySpent,
-    DateTime DateOfPremiere,
-    int RoleCount,
-    int ActorsCount
-);
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; }
+    public double TotalBudget { get; set; }
+    public double AlreadySpent { get; set; }
+    public DateTime DateOfPremiere { get; set; }
+    public int RoleCount { get; set; }
+    public int ActorsCount { get; set; }
+}

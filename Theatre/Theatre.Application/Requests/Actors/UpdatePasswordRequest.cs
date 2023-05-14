@@ -1,5 +1,7 @@
 ﻿namespace Theatre.Application.Requests.Actors;
 
-public record UpdatePasswordRequest(
-    string OldPassword, 
-    string NewPassword);
+public record UpdatePasswordRequest
+{
+    public string OldPassword { get; set; }
+    public string NewPassword { get; set; }
+}

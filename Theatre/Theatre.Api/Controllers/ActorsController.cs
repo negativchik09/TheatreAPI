@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Actors;
@@ -18,7 +20,7 @@ public class ActorsController : Controller
     {
         _actorsService = actorsService;
     }
-
+    
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<ActorFlat>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
@@ -58,6 +60,7 @@ public class ActorsController : Controller
         return StatusCode(500);
     }
 
+    [Authorize(Roles = IdentityRoles.Admin)]
     [HttpPost("")]
     [ProducesResponseType(typeof(CreateActorResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
@@ -75,10 +78,10 @@ public class ActorsController : Controller
         if (result.Error == DefinedErrors.Actors.ActorMustBeAdult
             || result.Error == DefinedErrors.Actors.ExperienceMustBeGreaterThanZero)
         {
-            return BadRequest(result.Error);
+            return BadRequest(result.Error.Message);
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
 
     [HttpPut("")]
@@ -88,6 +91,10 @@ public class ActorsController : Controller
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdatePersonalInfo([FromBody] UpdatePersonalInfoRequest request)
     {
+        if (User.IsInRole(IdentityRoles.Actor))
+        {
+            request.Id = Guid.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
+        }
         var result = await _actorsService.UpdateActor(request);
 
         if (result.IsSuccess)
@@ -98,12 +105,13 @@ public class ActorsController : Controller
         if (result.Error == DefinedErrors.Actors.ActorMustBeAdult
             || result.Error == DefinedErrors.Actors.ExperienceMustBeGreaterThanZero)
         {
-            return BadRequest(result.Error);
+            return BadRequest(result.Error.Message);
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
 
+    [Authorize(Roles = IdentityRoles.Admin)]
     [HttpDelete("{actorId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
@@ -117,6 +125,6 @@ public class ActorsController : Controller
             return Ok();
         }
 
-        return StatusCode(500);
+        return StatusCode(500, result.Error.Message);
     }
 }

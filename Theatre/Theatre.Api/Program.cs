@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Theatre;
 using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Actors;
+using Theatre.Application.Requests.Contracts;
 using Theatre.Application.Responses.Actors;
 using Theatre.Application.Responses.Contracts;
 using Theatre.Application.Responses.Roles;
@@ -17,8 +19,6 @@ using Theatre.Domain.Aggregates.Actors;
 using Theatre.Domain.Aggregates.Shows;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 var configuration = builder.Configuration;
 
@@ -96,6 +96,17 @@ builder.Services.AddAutoMapper(config =>
             expr => expr
                 .MapFrom(actor => actor.Name.MiddleName));
     
+    config.CreateMap<Actor, CreateActorResponse>()
+        .ForMember(response => response.FirstName,
+            expr => expr
+                .MapFrom(actor => actor.Name.FirstName))
+        .ForMember(response => response.LastName,
+            expr => expr
+                .MapFrom(actor => actor.Name.LastName))
+        .ForMember(response => response.MiddleName,
+            expr => expr
+                .MapFrom(actor => actor.Name.MiddleName));
+    
     config.CreateMap<UpdatePersonalInfoRequest, Actor>()
         .ForMember(actor => actor.Name,
             expr => expr
@@ -109,6 +120,11 @@ builder.Services.AddAutoMapper(config =>
             expr => expr
                 .MapFrom(contract => contract.Transactions.Sum(x => x.Sum.Amount)))
         .ForMember(fullInfo => fullInfo.YearCost,
+            expr => expr
+                .MapFrom(contract => contract.YearCost.Amount));
+
+    config.CreateMap<Contract, ContractFlat>()
+        .ForMember(fullInfo => fullInfo.Sum,
             expr => expr
                 .MapFrom(contract => contract.YearCost.Amount));
 
@@ -131,7 +147,7 @@ builder.Services.AddAutoMapper(config =>
                 .MapFrom(show => show.Roles.Count))
         .ForMember(flat => flat.ActorsCount,
             expr => expr
-                .MapFrom(show => show.Contracts.DistinctBy(x => x.ActorId)));
+                .MapFrom(show => show.Contracts.DistinctBy(x => x.ActorId).Count()));
 
     config.CreateMap<Show, ShowFlat>()
         .ForMember(flat => flat.TotalBudget,
@@ -197,10 +213,11 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
+
+Seeder.Initialize(app.Services);
 
 app.Run();

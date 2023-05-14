@@ -1,4 +1,6 @@
 ﻿namespace Theatre.Application.Requests.Transactions;
 
-public record CreateTransactionRequest(
-    Guid ContractId);
+public record CreateTransactionRequest
+{
+    public Guid ContractId { get; set; }
+}

@@ -16,6 +16,8 @@ public class Actor : Entity
     public string Email { get; private set; }
     public string Telephone { get; private set; }
     public string Address { get; private set; }
+    public Passport Passport { get; private set; }
+    public string TaxesNumber { get; private set; }
 
     private Actor() { }
 
@@ -27,7 +29,9 @@ public class Actor : Entity
         double experience, 
         string email, 
         string telephone, 
-        string address)
+        string address,
+        Passport passport,
+        string taxesNumber)
     {
         Id = id;
         Name = name;
@@ -37,6 +41,8 @@ public class Actor : Entity
         Email = email;
         Telephone = telephone;
         Address = address;
+        Passport = passport;
+        TaxesNumber = taxesNumber;
     }
 
     public static Result<Actor> Create(
@@ -49,34 +55,40 @@ public class Actor : Entity
         double experience,
         string email, 
         string telephone, 
-        string address)
+        string address,
+        string number,
+        string givenBy,
+        string? series,
+        string taxesNumber)
     {
         if (dateOfBirth.AddYears(18) > DateTime.UtcNow)
         {
-            return Result.Failure<Actor>(Errors.DefinedErrors.Actors.ActorMustBeAdult);
+            return Result.Failure<Actor>(DefinedErrors.Actors.ActorMustBeAdult);
         }
 
         if (experience < 0)
         {
-            return Result.Failure<Actor>(Errors.DefinedErrors.Actors.ExperienceMustBeGreaterThanZero);
+            return Result.Failure<Actor>(DefinedErrors.Actors.ExperienceMustBeGreaterThanZero);
         }
         
         // Regular expression pattern for Cyrillic letters
-        string pattern = @"^[а-яА-Я-`]+$";
+        string pattern = @"\p{IsCyrillic}";
         
         if (!Regex.IsMatch(firstName, pattern))
         {
-            return Result.Failure<Actor>(Errors.DefinedErrors.Actors.NameIssue);
+            return Result.Failure<Actor>(DefinedErrors.Actors.NameIssue);
         }
         if (!Regex.IsMatch(lastName, pattern))
         {
-            return Result.Failure<Actor>(Errors.DefinedErrors.Actors.NameIssue);
+            return Result.Failure<Actor>(DefinedErrors.Actors.NameIssue);
         }
         if (!Regex.IsMatch(middleName, pattern))
         {
-            return Result.Failure<Actor>(Errors.DefinedErrors.Actors.NameIssue);
+            return Result.Failure<Actor>(DefinedErrors.Actors.NameIssue);
         }
-        
+
+        var passport = Passport.Create(number, givenBy, series);
+        // TODO: taxesNumber validation
         return new Actor(
             id: id,
             name: new FullName(firstName, lastName, middleName),
@@ -85,6 +97,9 @@ public class Actor : Entity
             experience: experience,
             email: email,
             telephone: telephone,
-            address: address);
+            address: address,
+            passport: passport,
+            taxesNumber: taxesNumber
+            );
     }
 }

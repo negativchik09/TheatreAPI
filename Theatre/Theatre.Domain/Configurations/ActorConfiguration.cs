@@ -11,5 +11,6 @@ public class ActorConfiguration : IEntityTypeConfiguration<Actor>
         builder.HasKey(a => a.Id);
 
         builder.OwnsOne(x => x.Name);
+        builder.OwnsOne(x => x.Passport);
     }
 }
