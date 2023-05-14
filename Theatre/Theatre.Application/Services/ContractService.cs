@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Theatre.Application.Abstractions;
 using Theatre.Application.Requests.Contracts;

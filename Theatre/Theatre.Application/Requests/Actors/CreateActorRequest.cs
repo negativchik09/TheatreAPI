@@ -1,6 +1,4 @@
-﻿using Theatre.Domain.Aggregates.Actors;
-
-namespace Theatre.Application.Requests.Actors;
+﻿namespace Theatre.Application.Requests.Actors;
 
 public record CreateActorRequest
 {

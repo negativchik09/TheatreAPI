@@ -88,7 +88,7 @@ public class Actor : Entity
         }
 
         var passport = Passport.Create(number, givenBy, series);
-        // TODO: taxesNumber validation
+        
         return new Actor(
             id: id,
             name: new FullName(firstName, lastName, middleName),

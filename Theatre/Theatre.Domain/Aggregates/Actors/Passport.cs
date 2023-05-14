@@ -15,7 +15,6 @@ public record Passport
 
     public static Passport Create(string number, string givenBy, string? series)
     {
-        // TODO: Validation
         return new Passport(number, givenBy, series);
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Theatre.Domain.Aggregates.Actors;
 using Theatre.Domain.Aggregates.Shows;
 using Theatre.Domain.Primitives;
-using Theatre.Errors;
 
 namespace Theatre.Domain.Configurations;
 
